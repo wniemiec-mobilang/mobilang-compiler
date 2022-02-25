@@ -1,9 +1,17 @@
 package wniemiec.mobilang;
 
 import java.io.IOException;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import wniemiec.io.java.Consolex;
+import wniemiec.io.java.LogLevel;
+import wniemiec.mobilang.asc.export.exception.CodeExportException;
+import wniemiec.mobilang.asc.export.exception.OutputLocationException;
+import wniemiec.mobilang.scma.framework.exception.FactoryException;
 
 
 /**
@@ -15,9 +23,24 @@ public class App {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private static final String LBL_MOBILANG;
+    private static final String LBL_OUTPUT;
+    private static final String LBL_FRAMEWORK_NAME;
+    private static final String LBL_VERBOSE;
     private static String frameworkName;
     private static Path mobilangFilePath;
     private static Path outputLocationPath;
+
+
+    //-------------------------------------------------------------------------
+    //		Initialization block
+    //-------------------------------------------------------------------------
+    static {
+        LBL_MOBILANG = "mobilang";
+        LBL_OUTPUT = "output";
+        LBL_FRAMEWORK_NAME = "framework";
+        LBL_VERBOSE = "verbose";
+    }
 
 
     //-------------------------------------------------------------------------
@@ -28,9 +51,11 @@ public class App {
             parseArgs(args);
             runCompiler();
         }
+        catch (IllegalArgumentException e) {
+            Consolex.writeError("Invalid cmd args: " + e.getMessage());
+        }
         catch (Exception e) {
-            Consolex.writeError("Fatal error");
-            e.printStackTrace();
+            Consolex.writeError("Fatal error: " + e.getMessage());
         }
     }
 
@@ -38,22 +63,52 @@ public class App {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private static void parseArgs(String[] args) {
-        validateArgs(args);
+    private static void parseArgs(String[] args) throws ParseException {
+        CommandLine cmd = buildCmd(args);
+
+        validateArgs(cmd);
+        checkVerboseOption(cmd);
 
         frameworkName = args[0];
         mobilangFilePath = Path.of(args[1]);
         outputLocationPath = Path.of(args[2]);
     }
 
-    private static void validateArgs(String[] args) {
-        if (args.length < 3) {
-            Consolex.writeError("Missing args! Correct usage: <framework_name> <mobilang_file> <output_location>");
-            System.exit(-1);
+    private static CommandLine buildCmd(String[] args) throws ParseException {
+        Options options = buildCliOptions();
+        CommandLineParser parser = new DefaultParser();
+        
+        return parser.parse(options, args);
+    }
+
+    private static Options buildCliOptions() {
+        Options options = new Options();
+
+        options.addOption(LBL_MOBILANG, true, "MobiLang XML file");
+        options.addOption(LBL_OUTPUT, true, "Output location");
+        options.addOption(LBL_FRAMEWORK_NAME, true, "Framework name");
+        options.addOption(LBL_VERBOSE, false, "Display debug messages");
+        
+        return options;
+    }
+
+    private static void validateArgs(CommandLine cmd) {
+        if (!cmd.hasOption(LBL_MOBILANG)) {
+            throw new IllegalArgumentException(LBL_MOBILANG + " is missing");
+        }
+
+        if (!cmd.hasOption(LBL_OUTPUT)) {
+            throw new IllegalArgumentException(LBL_OUTPUT + " is missing");
         }
     }
 
-    private static void runCompiler() throws IOException {
+    private static void checkVerboseOption(CommandLine cmd) {
+        if (cmd.hasOption(LBL_VERBOSE)) {
+            Consolex.setLoggerLevel(LogLevel.DEBUG);
+        }
+    }
+
+    private static void runCompiler() throws IOException, FactoryException, wniemiec.mobilang.asc.parser.exception.FactoryException, wniemiec.mobilang.asc.parser.exception.ParseException, OutputLocationException, CodeExportException {
         MobiLangCompiler compiler = new MobiLangCompiler(
             mobilangFilePath, 
             outputLocationPath,
@@ -62,6 +117,6 @@ public class App {
 
         Path appLocation = compiler.run();
 
-        Consolex.writeInfo("Applications location: " + appLocation);
+        Consolex.writeInfo("Mobile apps generated at: " + appLocation);
     }
 }
