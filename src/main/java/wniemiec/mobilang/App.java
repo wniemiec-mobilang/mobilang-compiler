@@ -69,9 +69,9 @@ public class App {
         validateArgs(cmd);
         checkVerboseOption(cmd);
 
-        frameworkName = args[0];
-        mobilangFilePath = Path.of(args[1]);
-        outputLocationPath = Path.of(args[2]);
+        frameworkName = getFrameworkCliArg(cmd);
+        mobilangFilePath = getMobilangCliArg(cmd);
+        outputLocationPath = getOutputCliArg(cmd);
     }
 
     private static CommandLine buildCmd(String[] args) throws ParseException {
@@ -108,7 +108,30 @@ public class App {
         }
     }
 
-    private static void runCompiler() throws IOException, FactoryException, wniemiec.mobilang.asc.parser.exception.FactoryException, wniemiec.mobilang.asc.parser.exception.ParseException, OutputLocationException, CodeExportException {
+    private static String getFrameworkCliArg(CommandLine cmd) {
+        return cmd.getOptionValue(LBL_FRAMEWORK_NAME);
+    }
+
+    private static Path getMobilangCliArg(CommandLine cmd) {
+        String mobilangCliArg = cmd.getOptionValue(LBL_MOBILANG);
+
+        return normalizePath(Path.of(mobilangCliArg));
+    }
+
+    private static Path normalizePath(Path path) {
+        return path.toAbsolutePath().normalize();
+    }
+
+    private static Path getOutputCliArg(CommandLine cmd) {
+        String outputCliArg = cmd.getOptionValue(LBL_OUTPUT);
+
+        return normalizePath(Path.of(outputCliArg));
+    }
+
+    private static void runCompiler() 
+    throws IOException, FactoryException, wniemiec.mobilang.asc.parser.exception.FactoryException, 
+    wniemiec.mobilang.asc.parser.exception.ParseException, OutputLocationException, 
+    CodeExportException {
         MobiLangCompiler compiler = new MobiLangCompiler(
             mobilangFilePath, 
             outputLocationPath,

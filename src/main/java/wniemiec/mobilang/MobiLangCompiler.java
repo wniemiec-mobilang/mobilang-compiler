@@ -36,7 +36,9 @@ public class MobiLangCompiler {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public Path run() throws IOException, wniemiec.mobilang.scma.framework.exception.FactoryException, FactoryException, ParseException, OutputLocationException, CodeExportException {
+    public Path run() 
+    throws IOException, wniemiec.mobilang.scma.framework.exception.FactoryException, 
+    FactoryException, ParseException, OutputLocationException, CodeExportException {
         runMast();
         runAsc();
         
@@ -49,13 +51,16 @@ public class MobiLangCompiler {
         astFilePath = mast.run();
     }
 
-    private void runAsc() throws FactoryException, ParseException, OutputLocationException, CodeExportException, IOException {
+    private void runAsc() 
+    throws FactoryException, ParseException, OutputLocationException, 
+    CodeExportException, IOException {
         Asc asc = new Asc(astFilePath, outputLocationPath, frameworkName);
         
         sourceCodeFilePath = asc.run();
     }
 
-    private Path runScma() throws wniemiec.mobilang.scma.framework.exception.FactoryException, IOException {
+    private Path runScma() 
+    throws wniemiec.mobilang.scma.framework.exception.FactoryException, IOException {
         Scma scma = new Scma(sourceCodeFilePath, outputLocationPath, frameworkName);
 
         return scma.run();
