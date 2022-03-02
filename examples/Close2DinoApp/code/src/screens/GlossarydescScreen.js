@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _1071008d91a0d06bd5d6c478983e314b = styled.View`
+const _aaba32cb7c88740b8cd7ab59257c31b7 = styled.View`
 background-color: #222;
 margin: 0;
 `;
 
-const _f6f204ec51a0bffa5dee0d43e5b16cdb = styled.View`
+const _a340d06542736adcc68ea5193283a0c0 = styled.View`
 font-size: 15px;
 margin: 10px;
 font-family: Arial, Helvetica, sans-serif;
 color: white;
 `;
 
-const _9b59433919ca12f493dbb83f44682356 = styled.View`
+const _f186d70c9c4e0e579da73df80dfc14f6 = styled.View`
 background-color: #ccc;
 width: 100%;
 align-items: center;
@@ -22,24 +22,24 @@ display: flex;
 height: 50px;
 `;
 
-const _710c54e27f7ec02a7672ffe7c2357909 = styled.TouchableOpacity`
+const _a8469678ae1b8e0846860086d151bafa = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _1a3b9253696addf2fbb86b561f635dea = styled.Image`
+const _b8cc6ca761a356071953b2d300e5abaa = styled.Image`
 `;
 
-const _3ec27171497c58f992c955660dd407d9 = styled.TouchableOpacity`
+const _b4511ee767f57cb5a1c46e0ed8294812 = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _e8abdf77aab51b351c3ea4bc1e49ceb7 = styled.Image`
+const _3ecd067e3b4c5416b60a22572a0567b8 = styled.Image`
 `;
 
 
@@ -58,20 +58,20 @@ setGlossary(_glossary);
 }, []);
 
 return (
-<_1071008d91a0d06bd5d6c478983e314b>
-<_9b59433919ca12f493dbb83f44682356 id="status-bar">
-<_3ec27171497c58f992c955660dd407d9 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
-<_e8abdf77aab51b351c3ea4bc1e49ceb7 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_e8abdf77aab51b351c3ea4bc1e49ceb7>
-</_3ec27171497c58f992c955660dd407d9>
-<_710c54e27f7ec02a7672ffe7c2357909 OnPress={() => props.route.params.query="mobilang:screen:glossary"} id="back-btn">
-<_1a3b9253696addf2fbb86b561f635dea source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_1a3b9253696addf2fbb86b561f635dea>
-</_710c54e27f7ec02a7672ffe7c2357909>
-</_9b59433919ca12f493dbb83f44682356>
-<_f6f204ec51a0bffa5dee0d43e5b16cdb id="glossary">
-</_f6f204ec51a0bffa5dee0d43e5b16cdb>
-</_1071008d91a0d06bd5d6c478983e314b>
+<_aaba32cb7c88740b8cd7ab59257c31b7>
+<_f186d70c9c4e0e579da73df80dfc14f6 id="status-bar">
+<_b4511ee767f57cb5a1c46e0ed8294812 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
+<_3ecd067e3b4c5416b60a22572a0567b8 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_3ecd067e3b4c5416b60a22572a0567b8>
+</_b4511ee767f57cb5a1c46e0ed8294812>
+<_a8469678ae1b8e0846860086d151bafa OnPress={() => props.route.params.query="mobilang:screen:glossary"} id="back-btn">
+<_b8cc6ca761a356071953b2d300e5abaa source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_b8cc6ca761a356071953b2d300e5abaa>
+</_a8469678ae1b8e0846860086d151bafa>
+</_f186d70c9c4e0e579da73df80dfc14f6>
+<_a340d06542736adcc68ea5193283a0c0 id="glossary">
+</_a340d06542736adcc68ea5193283a0c0>
+</_aaba32cb7c88740b8cd7ab59257c31b7>
 );
 }
 

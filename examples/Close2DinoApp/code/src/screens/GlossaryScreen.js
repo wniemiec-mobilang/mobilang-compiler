@@ -2,33 +2,33 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _1502b40186a289134e55023a39fb9868 = styled.View`
+const _4f9e1cb02c055a28739a5b26a757da94 = styled.View`
 background-color: #444;
 margin: 0;
 `;
 
-const _dc5a2ec1761c58228c132789c65d674e = styled.View`
+const _840bade83a7e82181e0c3b6a9b28a484 = styled.View`
 font-size: 15px;
 margin: 10px;
 font-family: Arial, Helvetica, sans-serif;
 color: white;
 `;
 
-const _451a6dc71e774e75af0e2a70b810cd55 = styled.View`
+const _b704da51331adef26a673a7cc8f07cff = styled.View`
 background-color: #222;
 `;
 
-const _32e07fd7fb9bbc47598b6b0b06f1135d = styled.Text`
+const _2eb64d4e1081c41ec98bca7cdb890c3e = styled.Text`
 `;
 
-const _463080abced78fc2fddc41dfbc4136c6 = styled.View`
+const _1206de9847da1c478212b09fa06af9f0 = styled.View`
 margin: 10px;
 `;
 
-const _c515ab49db17f4c07fed28c3980ce9f7 = styled.TextInput`
+const _6b5b1fd023ca2e50c226a91bb5235fe4 = styled.TextInput`
 `;
 
-const _203c68c6e2724e945abe83c1a5f6dd50 = styled.View`
+const _8034592dfd669d12756353834a5204d7 = styled.View`
 background-color: #ccc;
 width: 100%;
 align-items: center;
@@ -36,24 +36,24 @@ display: flex;
 height: 50px;
 `;
 
-const _8cbbaa065b56ef2d2efc9b4d63f03952 = styled.TouchableOpacity`
+const _43b007df7af2ab990d67b699a997bd0 = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _b16420f8a7ee1e4fbb2fa7d5f98c9206 = styled.Image`
+const _ef3d027dd8f95d90ad48bc628f5ffa25 = styled.Image`
 `;
 
-const _1382bf54e9a73d1c59f85c54a254566b = styled.TouchableOpacity`
+const _11a523961a1667c7b37f2fc7e520d457 = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _e2917d8c91e63022430b9df08fb49ae4 = styled.Image`
+const _7c5bb717d0293a0b0dec52f267f405bb = styled.Image`
 `;
 
 
@@ -94,29 +94,29 @@ setGlossarycontent(_glossaryContent);
 }, []);
 
 return (
-<_1502b40186a289134e55023a39fb9868>
-<_203c68c6e2724e945abe83c1a5f6dd50 id="status-bar">
-<_1382bf54e9a73d1c59f85c54a254566b OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
-<_e2917d8c91e63022430b9df08fb49ae4 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_e2917d8c91e63022430b9df08fb49ae4>
-</_1382bf54e9a73d1c59f85c54a254566b>
-<_8cbbaa065b56ef2d2efc9b4d63f03952 OnPress={() => props.route.params.query="mobilang:screen:home"} id="back-btn">
-<_b16420f8a7ee1e4fbb2fa7d5f98c9206 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_b16420f8a7ee1e4fbb2fa7d5f98c9206>
-</_8cbbaa065b56ef2d2efc9b4d63f03952>
-</_203c68c6e2724e945abe83c1a5f6dd50>
-<_463080abced78fc2fddc41dfbc4136c6 id="search">
-<_c515ab49db17f4c07fed28c3980ce9f7>
-</_c515ab49db17f4c07fed28c3980ce9f7>
-</_463080abced78fc2fddc41dfbc4136c6>
-<_dc5a2ec1761c58228c132789c65d674e id="glossary">
-<_32e07fd7fb9bbc47598b6b0b06f1135d>
+<_4f9e1cb02c055a28739a5b26a757da94>
+<_8034592dfd669d12756353834a5204d7 id="status-bar">
+<_11a523961a1667c7b37f2fc7e520d457 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
+<_7c5bb717d0293a0b0dec52f267f405bb source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_7c5bb717d0293a0b0dec52f267f405bb>
+</_11a523961a1667c7b37f2fc7e520d457>
+<_43b007df7af2ab990d67b699a997bd0 OnPress={() => props.route.params.query="mobilang:screen:home"} id="back-btn">
+<_ef3d027dd8f95d90ad48bc628f5ffa25 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_ef3d027dd8f95d90ad48bc628f5ffa25>
+</_43b007df7af2ab990d67b699a997bd0>
+</_8034592dfd669d12756353834a5204d7>
+<_1206de9847da1c478212b09fa06af9f0 id="search">
+<_6b5b1fd023ca2e50c226a91bb5235fe4>
+</_6b5b1fd023ca2e50c226a91bb5235fe4>
+</_1206de9847da1c478212b09fa06af9f0>
+<_840bade83a7e82181e0c3b6a9b28a484 id="glossary">
+<_2eb64d4e1081c41ec98bca7cdb890c3e>
 Glossário
-</_32e07fd7fb9bbc47598b6b0b06f1135d>
-<_451a6dc71e774e75af0e2a70b810cd55 id="glossary-content">
-</_451a6dc71e774e75af0e2a70b810cd55>
-</_dc5a2ec1761c58228c132789c65d674e>
-</_1502b40186a289134e55023a39fb9868>
+</_2eb64d4e1081c41ec98bca7cdb890c3e>
+<_b704da51331adef26a673a7cc8f07cff id="glossary-content">
+</_b704da51331adef26a673a7cc8f07cff>
+</_840bade83a7e82181e0c3b6a9b28a484>
+</_4f9e1cb02c055a28739a5b26a757da94>
 );
 }
 

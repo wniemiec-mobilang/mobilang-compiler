@@ -42,8 +42,7 @@ public class MobiLangCompiler {
         runMast();
         runAsc();
         
-        //return runScma();
-        return null;
+        return runScma();
     }
 
     private void runMast() throws IOException {
@@ -62,7 +61,11 @@ public class MobiLangCompiler {
 
     private Path runScma() 
     throws wniemiec.mobilang.scma.framework.exception.FactoryException, IOException {
-        Scma scma = new Scma(sourceCodeFilePath, outputLocationPath, frameworkName);
+        Scma scma = new Scma(
+            sourceCodeFilePath, 
+            outputLocationPath.resolve(sourceCodeFilePath.getParent().getFileName().toString()), 
+            frameworkName
+        );
 
         return scma.run();
     }
