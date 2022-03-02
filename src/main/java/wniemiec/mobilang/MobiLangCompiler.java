@@ -42,7 +42,8 @@ public class MobiLangCompiler {
         runMast();
         runAsc();
         
-        return runScma();
+        //return runScma();
+        return null;
     }
 
     private void runMast() throws IOException {
