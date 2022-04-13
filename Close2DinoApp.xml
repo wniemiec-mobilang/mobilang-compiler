@@ -6,11 +6,12 @@
                     <body>
                         <div id="status-bar">
                             <button id="menu-btn">
-                                <img height="25" src="https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png" />
+                                <img height="25" width="25" src="https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png" />
                             </button>
                         </div>
                         <div id="items">
                             <a href="mobilang:screen:glossary">Glossário</a>
+                            <a href="mobilang:screen:faq">F.A.Q.</a>
                         </div>
                     </body>
                 </html>
@@ -67,12 +68,23 @@
                 <html>
                     <body>
                         <div id="status-bar">
-                            <button id="menu-btn">
-                                <img height="25" src="https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png" />
-                            </button>
-                            <button id="back-btn">
-                                <img height="25" src="http://cdn.onlinewebfonts.com/svg/img_259786.png" />
-                            </button>
+                            <div class="left">
+                                <button id="menu-btn">
+                                    <img src="https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png" width="25"
+                                        height="25">
+                                    </img>
+                                </button>
+                                <button id="back-btn">
+                                    <img src="http://cdn.onlinewebfonts.com/svg/img_259786.png" width="25" height="25">
+                                    </img>
+                                </button>
+                            </div>
+                            <div class="right">
+                                <button id="reload-btn">
+                                    <img src="http://cdn.onlinewebfonts.com/svg/img_209352.png" width="25" height="25">
+                                    </img>
+                                </button>
+                            </div>
                         </div>
                         <div id="search">
                             <input type="text" placeholder="Buscar..." />
@@ -100,6 +112,17 @@
                     width: 100%;
                     display: flex;
                     align-items: center;
+                    justify-content: space-between;
+                }
+              
+                #status-bar .left,
+                #status-bar .right  {
+                    flex: 1;
+                }
+              
+                #status-bar .right  {
+                    display: flex;
+                    justify-content: flex-end;
                 }
     
                 #status-bar button {
@@ -120,7 +143,7 @@
                     border-radius: 10px;
                     font-size: 20px;
                     padding-left: 20px;
-                    width: 100%;
+                    width: 94%;
                 }
     
                 #glossary {
@@ -131,7 +154,8 @@
                 }
     
                 #glossary h1 {
-                    margin: 20 0;
+                    margin: 20px 0;
+                    color: white;
                 }
     
                 #glossary-content {
@@ -146,7 +170,7 @@
                 }
     
                 #glossary-content .item h2 {
-                    margin: 5;
+                    margin: 5px;
                     margin-left: 20px;
                     padding: 10px 0;
                     cursor: pointer;
@@ -158,7 +182,7 @@
                 }
     
                 #glossary-content .item .item-content p {
-                    margin: 20 0;
+                    margin: 20px 0;
                 }
     
                 #glossary-content .item .item-content a {
@@ -174,66 +198,43 @@
             <behavior>
                 document.getElementById("menu-btn").onclick = () => window.location.href = "mobilang:screen:home";
                 document.getElementById("back-btn").onclick = () => window.location.href = "mobilang:screen:home";
+                document.getElementById("reload-btn").onclick = () => window.location.reload();
+                
+                const glossaryContent = document.getElementById("glossary-content");
             
                 function openDescription(item) {
                     item.children[1].classList.toggle("item-content-open");
                 }
 
-                function makeGlossaryItemsClickable() {
-                    const items = document.querySelectorAll(".item");
-
-                    for (let i = 0; i < items.length; i++) {
-                        items[i].onclick = () => openDescription(items[i]);
-                    }
-                }
-
-                makeGlossaryItemsClickable();
-
-                const glossaryContent = document.getElementById("glossary-content");
-
-                const data = [
-                    {
-                        id: 1, 
-                        name: 'Adenomegalia', 
-                        type: 'Condição', 
-                        description: 'Linfonodos ou gânglios aumentados, também conhecidos como ínguas.',
-                        content: 'Adenomegalia é o aumento dos linfonodos (ínguas). Pode estar presente em crianças e, na maior parte dos casos, é causada por infecções virais. Mais raramente podem ser causadas por doenças oncológicas tais como leucemias ou linfomas.'
-                    },
-                    {
-                        id: 2, 
-                        name: 'Alopécia', 
-                        type: 'Condição', 
-                        description: 'Queda de cabelos',
-                        content: 'A alopécia é a perda de cabelos do couro cabeludo ou de qualquer outra região do corpo. Em crianças em tratamento oncológico (quimioterapia ou radioterapia) a queda do cabelo pode acontecer. Nestes casos, uma vez terminado o tratamento o cabelo volta a crescer.'
-                    }
-                ];
-
-                function loadGlossaryWithName(name='') {
-                    glossaryContent.innerHTML = "";
-                    for (let item of data) {
-                        if (item.name.toLowerCase().startsWith(name.toLowerCase())) {
-                            glossaryContent.innerHTML += `
-                            <div class="item">
-                                <h2>${item.name}</h2>
-                                <div class="item-content">
-                                    <h3>${item.type}</h3>
-                                    <p>${item.description}</p>
-                                    <a href="mobilang:screen:glossary-desc.html?id=${item.id}">Leia mais</a>
-                                </div>
-                            </div>
-                            `;
+                fetch('http://192.168.0.62:8080/glossary')
+                    .then(res => {
+                      res.json()
+                        .then(data => {
+                          function loadGlossaryWithName(name='') {
+                            glossaryContent.innerHTML = "";
+                            for (let item in data) {
+                                if (data[item].name.toLowerCase().startsWith(name.toLowerCase())) {
+                                    glossaryContent.innerHTML += `
+                                    <div class="item" onclick="openDescription(this);">
+                                        <h2>${data[item].name}</h2>
+                                        <div class="item-content">
+                                            <h3>${data[item].type}</h3>
+                                            <p>${data[item].description}</p>
+                                            <a href="mobilang:screen:glossary-desc?id=${data[item].id}">Leia mais</a>
+                                        </div>
+                                    </div>
+                                    `;
+                                }
+                            }
                         }
-                    }
 
-                    makeGlossaryItemsClickable();
-                }
-
-                loadGlossaryWithName();
-
-                const searchInput = document.getElementById("search").children[0];
-                searchInput.addEventListener('keyup', (event) => {
-                    loadGlossaryWithName(searchInput.value);
-                })
+                          loadGlossaryWithName();
+                          var searchInput = document.getElementById("search").children[0];
+                          searchInput.addEventListener("keyup", function (event) {
+                            loadGlossaryWithName(searchInput.value);
+                          });
+                        })
+                    });
             </behavior>
         </screen>
 
@@ -243,13 +244,13 @@
                     <body>
                         <div id="status-bar">
                             <button id="menu-btn">
-                                <img height="25" src="https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png" />
+                                <img height="25" width="25" src="https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png" />
                             </button>
                             <button id="back-btn">
-                                <img height="25" src="http://cdn.onlinewebfonts.com/svg/img_259786.png" />
+                                <img height="25" width="25" src="http://cdn.onlinewebfonts.com/svg/img_259786.png" />
                             </button>
                         </div>
-                        <div id="glossary"></div>
+                        <div id="glossary-area"></div>
                     </body>
                 </html>
             </structure>
@@ -286,7 +287,7 @@
                 }
     
                 #glossary .header {
-                    margin: 20 0;
+                    margin: 20px 0;
                     padding-bottom: 10px;
                     border-bottom: 1px solid black;
                 }
@@ -307,53 +308,381 @@
                 document.getElementById("menu-btn").onclick = () => window.location.href = "mobilang:screen:home";
                 document.getElementById("back-btn").onclick = () => window.location.href = "mobilang:screen:glossary";
 
-                const glossary = document.getElementById("glossary");
+                const glossary = document.getElementById("glossary-area");
 
-                const data = [
-                    {
-                        id: 1, 
-                        name: 'Adenomegalia', 
-                        type: 'Condição', 
-                        description: 'Linfonodos ou gânglios aumentados, também conhecidos como ínguas.',
-                        content: 'Adenomegalia é o aumento dos linfonodos (ínguas). Pode estar presente em crianças e, na maior parte dos casos, é causada por infecções virais. Mais raramente podem ser causadas por doenças oncológicas tais como leucemias ou linfomas.'
-                    },
-                    {
-                        id: 2, 
-                        name: 'Alopécia', 
-                        type: 'Condição', 
-                        description: 'Queda de cabelos',
-                        content: 'A alopécia é a perda de cabelos do couro cabeludo ou de qualquer outra região do corpo. Em crianças em tratamento oncológico (quimioterapia ou radioterapia) a queda do cabelo pode acontecer. Nestes casos, uma vez terminado o tratamento o cabelo volta a crescer.'
-                    }
-                ];
+                fetch('http://192.168.0.62:8080/glossary')
+                    .then(res => {
+                      res.json()
+                        .then(data => {
+                            const id = "mobilang:param:id";
+                            const glossaryItem = data.filter(item => item.id == id)[0];
 
-                const id = window.location.href.split('?')[1].split('=')[1];
-                const glossaryItem = data.find(item => item.id == id);
+                            glossary.innerHTML = "";
+                            glossary.innerHTML += `
+                                <div id="glossary">
+                                    <div class="header">
+                                        <h1>${glossaryItem.name}</h1>
+                                        <h2>${glossaryItem.type}</h2>
+                                    </div>
+                                    <p>
+                                        ${glossaryItem.description}
+                                    </p>
+                                </div>
+                            `;
+                        })
+                    });
+            </behavior>
+        </screen>
 
-                glossary.innerHTML = "";
-                glossary.innerHTML += `
-                    <div id="glossary">
-                        <div class="header">
-                            <h1>${glossaryItem.name}</h1>
-                            <h2>${glossaryItem.type}</h2>
+        <screen id="faq">
+            <structure>
+                <html>
+                    <body>
+                        <div id="status-bar">
+                            <div class="left">
+                                <button id="menu-btn">
+                                    <img src="https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png" width="25"
+                                        height="25">
+                                    </img>
+                                </button>
+                                <button id="back-btn">
+                                    <img src="http://cdn.onlinewebfonts.com/svg/img_259786.png" width="25" height="25">
+                                    </img>
+                                </button>
+                            </div>
+                            <div class="right">
+                                <button id="reload-btn">
+                                    <img src="http://cdn.onlinewebfonts.com/svg/img_209352.png" width="25" height="25">
+                                    </img>
+                                </button>
+                            </div>
                         </div>
-                        <p>
-                            ${glossaryItem.description}
-                        </p>
-                    </div>
-                `;
+                        <div id="search">
+                            <input type="text" placeholder="Buscar..." />
+                        </div>
+                        <div id="faq">
+                            <h1>F.A.Q.</h1>
+                            <div id="faq-content"></div>
+                            <div class="faq-footer">
+                                <button class="send-question" onClick="openModal()">
+                                    Não encontrou sua pergunta?
+                                </button>
+                            </div>
+                
+                            <div class="modal" id="modal-pergunta">
+                                <div class="modal-area">
+                                    <div class="header">
+                                        <h2>Janela Modal</h2>
+                                        <img height="30" src="https://www.imagensempng.com.br/wp-content/uploads/2021/05/06-2.png" alt="icon" />
+                                    </div>
+                                    <div class="body">
+                                        <h3>Mande para os profissionais!</h3>
+                                        <input id="pergunta-input" type="text" placeholder="Pergunta*" />
+                                    </div>
+                                    <div class="footer">
+                                        <button onClick="handleClose()">Cancelar</button>
+                                        <button onClick="handleSave()">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </body>
+                </html>
+            </structure>
+
+            <style>
+                * {
+                    margin: 0;
+                }
+    
+                body {
+                    background-color: #444;
+                }
+    
+                #status-bar {
+                    background-color: #ccc;
+                    height: 50px;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                
+                #status-bar .left,
+                #status-bar .right  {
+                    flex: 1;
+                }
+                
+                #status-bar .right  {
+                    display: flex;
+                    justify-content: flex-end;
+                }
+    
+                #status-bar button {
+                    border: 0;
+                    background-color: transparent;
+                    margin: 0 15px;
+                    cursor: pointer;
+                }
+    
+                #search {
+                    margin: 10px;
+    
+                }
+    
+                #search input {
+                    border: 1px solid #ccc;
+                    height: 50px;
+                    border-radius: 10px;
+                    font-size: 20px;
+                    padding-left: 20px;
+                    width: 94%;
+                }
+                
+                #faq {
+                    font-family: Arial, Helvetica, sans-serif;
+                    color: white;
+                    font-size: 15px;
+                    margin: 10px;
+                }
+    
+                #faq h1 {
+                    margin: 20px 0;
+                }
+    
+                #faq-content {
+                    background-color: #222;
+                }
+    
+                #faq-content .item {
+                    border-bottom: 1px solid #000;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+    
+                #faq-content .item h2 {
+                    margin: 5px;
+                    margin-left: 20px;
+                    padding: 10px 0;
+                    cursor: pointer;
+                    font-size: medium;
+                }
+    
+                #faq-content .item .item-content {
+                    display: none;
+                    padding: 20px;
+                }
+    
+                #faq-content .item .item-content p {
+                    margin: 0 0 10px 0;
+                }
+    
+                #faq-content .item .item-content a {
+                    color: #48cdd1;
+                    text-decoration: none;
+                }
+    
+                .item-content-open {
+                    display: block !important;
+                }
+    
+                .faq-footer {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 20px 0;
+                }
+    
+                .send-question {
+                    color: #18bfa0;
+                    font-size: small;
+                    border: 0;
+                    background-color: transparent;
+                    cursor: pointer;
+                }
+    
+                .modal {
+                    position: fixed;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    font-family: Arial, Helvetica, sans-serif;
+                    background: rgba(0,0,0,0.8);
+                    z-index: 99999;
+                    opacity:0;
+                    transition: opacity 400ms ease-in;
+                    pointer-events: none;
+                }
+    
+                .modal:target {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+    
+                .modal > div {
+                    width: 400px;
+                    position: relative;
+                    margin: 10% auto;
+                    background: #444;
+                }
+    
+                .modal-area {
+                    display: flex;
+                    flex-direction: column;
+                }
+    
+                .modal-area .header,
+                .modal-area .body,
+                .modal-area .footer {
+                    padding: 10px 20px;
+                }
+    
+                .modal-area .header {
+                    height: 50px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    background: #222;
+                }
+    
+                .modal-area .body {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 20px;
+                }
+    
+                .modal-area .footer {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    padding: 15px 20px;
+                }
+    
+                .modal-area .footer button {
+                    background-color: transparent;
+                    color: white;
+                    text-transform: uppercase;
+                    border: 0;
+                    cursor: pointer;
+                    margin-left: 20px;
+                }
+    
+                #pergunta-input {
+                    background-color: transparent;
+                    color: white;
+                    font-size: large;
+                    border: 0;
+                    margin: 20px 0;
+                    padding-bottom: 5px;
+                    border-bottom: 1px solid white;
+                }
+    
+                #pergunta-input:focus {
+                    outline: none;
+                    border-bottom: 1px solid #18bfa0;
+                }
+            </style>
+
+            <behavior>
+                document.getElementById("menu-btn").onclick = () => window.location.href = "mobilang:screen:home";
+                document.getElementById("back-btn").onclick = () => window.location.href = "mobilang:screen:home";
+                document.getElementById("reload-btn").onclick = () => window.location.reload();
+
+                function openModal() {
+                    document.getElementById("modal-pergunta").style.display = 'block';
+                    document.getElementById("modal-pergunta").style.pointerEvents = 'auto';
+                    
+                    setTimeout(function () {
+                        document.getElementById("modal-pergunta").style.opacity = 1;
+                    }, 50);
+                    
+                }
+
+                function handleClose() {
+                    closeModal();
+                }
+
+                function closeModal() {
+                    document.getElementById("modal-pergunta").style.opacity = 0;
+                    setTimeout(function () {
+                        document.getElementById("modal-pergunta").style.display = 'none';
+                    }, 500);
+                }
+
+                function handleSave() {
+                    const message = document.getElementById("pergunta-input").value;
+
+                    fetch('http://192.168.0.62:8080/faq', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ title: message })
+                    })
+                    .then(res => {
+                        closeModal();
+                        loadFaqData();
+                    })
+                    .catch(err => {
+                        alert(err);
+                    });
+                }
+            
+                function openDescription(itemId) {
+                    const faqContent = document.getElementById("faq-content");
+                    faqContent.children[itemId].children[1].classList.toggle("item-content-open");
+                }
+
+                const faqContent = document.getElementById("faq-content");
+
+                function loadFaqData() {
+                    fetch('http://192.168.0.62:8080/faq')
+                    .then(res => {
+                        res.json()
+                        .then(data => {
+                            function loadFaqWithTitle(title='') {
+                                faqContent.innerHTML = "";
+                                for (let i in data) {
+                                    let item = data[i];
+                                    if (item.title.toLowerCase().startsWith(title.toLowerCase())) {
+                                        faqContent.innerHTML += `
+                                        <div class="item">
+                                            <h2 onClick="openDescription(${i})">${item.title}</h2>
+                                            <div class="item-content">
+                                                <p>${item.content ? item.content : "Sua pergunta ainda não foi respondida."}</p>
+                                            </div>
+                                        </div>
+                                        `;
+                                    }
+                                }
+                            }
+
+                            loadFaqWithTitle();
+
+                            const searchInput = document.getElementById("search").children[0];
+                            searchInput.addEventListener('keyup', (event) => {
+                                loadFaqWithTitle(searchInput.value);
+                            });
+                        })
+                    });
+                }
+
+                loadFaqData();
             </behavior>
         </screen>
     </screens>
 
     <properties>
         {
-            "application_name": "Close2DinoApp"
+            "application_name": "Close2DinoApp",
+            "platforms": [
+                "android",
+                "ios"
+            ]
         }
     </properties>
-    
-    <persistence>
-        {
-            "type": "memory"
-        }
-    </persistence>
 </mobilang>

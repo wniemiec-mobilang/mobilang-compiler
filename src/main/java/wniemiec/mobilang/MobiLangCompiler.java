@@ -2,14 +2,15 @@ package wniemiec.mobilang;
 
 import java.io.IOException;
 import java.nio.file.Path;
-
-import wniemiec.mobilang.asc.Asc;
-import wniemiec.mobilang.asc.export.exception.CodeExportException;
-import wniemiec.mobilang.asc.export.exception.OutputLocationException;
-import wniemiec.mobilang.asc.parser.exception.FactoryException;
-import wniemiec.mobilang.asc.parser.exception.ParseException;
+import wniemiec.mobilang.ama.Ama;
+import wniemiec.mobilang.ama.coder.exception.CoderException;
+import wniemiec.mobilang.ama.export.exception.AppGenerationException;
+import wniemiec.mobilang.ama.export.exception.CodeExportException;
+import wniemiec.mobilang.ama.export.exception.OutputLocationException;
+import wniemiec.mobilang.ama.parser.exception.FactoryException;
+import wniemiec.mobilang.ama.parser.exception.ParseException;
 import wniemiec.mobilang.mast.Mast;
-import wniemiec.mobilang.scma.Scma;
+
 
 public class MobiLangCompiler {
 
@@ -20,7 +21,6 @@ public class MobiLangCompiler {
     private final Path outputLocationPath;
     private final String frameworkName;
     private Path astFilePath;
-    private Path sourceCodeFilePath;
 
 
     //-------------------------------------------------------------------------
@@ -37,12 +37,11 @@ public class MobiLangCompiler {
     //		Methods
     //-------------------------------------------------------------------------
     public Path run() 
-    throws IOException, wniemiec.mobilang.scma.framework.exception.FactoryException, 
-    FactoryException, ParseException, OutputLocationException, CodeExportException {
+    throws IOException, FactoryException, ParseException, OutputLocationException, 
+    CodeExportException, AppGenerationException, CoderException {
         runMast();
-        runAsc();
         
-        return runScma();
+        return runAma();
     }
 
     private void runMast() throws IOException {
@@ -51,22 +50,11 @@ public class MobiLangCompiler {
         astFilePath = mast.run();
     }
 
-    private void runAsc() 
-    throws FactoryException, ParseException, OutputLocationException, 
-    CodeExportException, IOException {
-        Asc asc = new Asc(astFilePath, outputLocationPath, frameworkName);
+    private Path runAma() throws FactoryException, ParseException, 
+    OutputLocationException, CodeExportException, AppGenerationException, 
+    CoderException, IOException {
+        Ama ama = new Ama(astFilePath, outputLocationPath, frameworkName);
         
-        sourceCodeFilePath = asc.run();
-    }
-
-    private Path runScma() 
-    throws wniemiec.mobilang.scma.framework.exception.FactoryException, IOException {
-        Scma scma = new Scma(
-            sourceCodeFilePath, 
-            outputLocationPath.resolve(sourceCodeFilePath.getParent().getFileName().toString()), 
-            frameworkName
-        );
-
-        return scma.run();
+        return ama.run();
     }
 }

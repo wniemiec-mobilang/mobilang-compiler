@@ -9,9 +9,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.LogLevel;
-import wniemiec.mobilang.asc.export.exception.CodeExportException;
-import wniemiec.mobilang.asc.export.exception.OutputLocationException;
-import wniemiec.mobilang.scma.framework.exception.FactoryException;
+import wniemiec.mobilang.ama.coder.exception.CoderException;
+import wniemiec.mobilang.ama.export.exception.AppGenerationException;
+import wniemiec.mobilang.ama.export.exception.CodeExportException;
+import wniemiec.mobilang.ama.export.exception.OutputLocationException;
+import wniemiec.mobilang.ama.parser.exception.FactoryException;
 
 
 /**
@@ -128,10 +130,9 @@ public class App {
         return normalizePath(Path.of(outputCliArg));
     }
 
-    private static void runCompiler() 
-    throws IOException, FactoryException, wniemiec.mobilang.asc.parser.exception.FactoryException, 
-    wniemiec.mobilang.asc.parser.exception.ParseException, OutputLocationException, 
-    CodeExportException {
+    private static void runCompiler() throws IOException, FactoryException, 
+    wniemiec.mobilang.ama.parser.exception.ParseException, OutputLocationException, 
+    CodeExportException, AppGenerationException, CoderException {
         MobiLangCompiler compiler = new MobiLangCompiler(
             mobilangFilePath, 
             outputLocationPath,

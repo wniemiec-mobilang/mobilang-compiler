@@ -60,18 +60,10 @@
 
     <dependency>
       <groupId>wniemiec.mobilang</groupId>
-      <artifactId>asc-compiler</artifactId>
+      <artifactId>ama-compiler</artifactId>
       <version>1.0.0</version>
       <scope>system</scope>
-      <systemPath>${project.basedir}/lib/asc-compiler-1.0.0.jar</systemPath>
-    </dependency>
-
-    <dependency>
-      <groupId>wniemiec.mobilang</groupId>
-      <artifactId>scma-compiler</artifactId>
-      <version>1.0.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/scma-compiler-1.0.0.jar</systemPath>
+      <systemPath>${project.basedir}/lib/ama-compiler-1.0.0.jar</systemPath>
     </dependency>
   </dependencies>
 
