@@ -2,11 +2,11 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>wniemiec.mobilang</groupId>
-  <artifactId>mobilang-compiler</artifactId>
+  <groupId>wniemiec.mobilex</groupId>
+  <artifactId>mobilex-compiler</artifactId>
   <version>1.0.0</version>
-  <name>mobilang-compiler</name>
-  <url>https://github.com/williamniemiec/mobilang-compiler</url>
+  <name>mobilex-compiler</name>
+  <url>https://github.com/wniemiec-mobilex/mobilex-compiler</url>
 
   <properties>
     <version.major>1</version.major>
@@ -55,7 +55,7 @@
       <artifactId>mast-compiler</artifactId>
       <version>1.0.0</version>
       <scope>system</scope>
-      <systemPath>${project.basedir}/lib/mast-compiler-1.0.0.jar</systemPath>
+      <systemPath>${project.basedir}/lib/mast.jar</systemPath>
     </dependency>
 
     <dependency>
@@ -63,7 +63,7 @@
       <artifactId>ama-compiler</artifactId>
       <version>1.0.0</version>
       <scope>system</scope>
-      <systemPath>${project.basedir}/lib/ama-compiler-1.0.0.jar</systemPath>
+      <systemPath>${project.basedir}/lib/ama.jar</systemPath>
     </dependency>
   </dependencies>
 
@@ -104,15 +104,9 @@
           </configuration>
         </plugin>
 
-
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
         </plugin>
 
         <plugin>
@@ -182,6 +176,16 @@
             </execution>
           </executions>
           <configuration>
+            <archive>
+              <manifest>
+                <mainClass>
+                  wniemiec.mobilex.App
+                </mainClass>
+              </manifest>
+              <manifestEntries>
+                <Class-Path>lib/mast.jar lib/ama.jar</Class-Path>
+              </manifestEntries>
+              </archive>
             <appendAssemblyId>false</appendAssemblyId>
             <descriptors>
               <descriptor>${basedir}/src/assembly/distribution.xml</descriptor>
